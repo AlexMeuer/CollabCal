@@ -30,8 +30,6 @@ import {
 } from "./redux/store";
 import { useSelector } from "react-redux";
 
-const currentDate = "2018-11-01";
-
 function App() {
   const dispatch = useAppDispatch();
   const onCommitChanges = React.useCallback(
@@ -46,12 +44,12 @@ function App() {
         }
       }
       if (deleted) {
-        dispatch(appointments.remove(deleted));
+        dispatch(appointments.delete(deleted));
       }
     },
     []
   );
-  const data = useSelector(selectAppointments);
+  const { status, appointments: data } = useSelector(selectAppointments);
   const formattedData = React.useMemo(
     (): AppointmentModel[] =>
       data.map((apt) => ({
@@ -66,7 +64,7 @@ function App() {
       {/* @ts-ignore: TS complains that Scheduler doesn't have a children prop. */}
       <Scheduler data={formattedData}>
         <ViewState
-          defaultCurrentDate={currentDate}
+          defaultCurrentDate={new Date()}
           defaultCurrentViewName="Month"
         />
         <WeekView startDayHour={0} endDayHour={24} />
