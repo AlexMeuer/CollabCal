@@ -1,71 +1,42 @@
 import { AppointmentModel } from "@devexpress/dx-react-scheduler";
-import {
-  createAsyncThunk,
-  createSlice,
-  isPending,
-  isRejected,
-} from "@reduxjs/toolkit";
-import { ID } from "appwrite";
-import { databases } from "../../appwrite";
+import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import { AppointmentWithoutID } from "../../repos/appointmentsRepo";
+import { Appointment } from "../../types/appointment";
+import { createAsyncAppThunk } from "../ioc";
 
-//! TODO: Refactor AppWrite out of here. It shouldn't be a hard dependency.
-
-export const addAppointment = createAsyncThunk(
+export const addAppointment = createAsyncAppThunk(
   "appointment/add",
-  async (appointment: AppointmentModel): Promise<AppointmentModel> => {
-    delete appointment.id;
-    const id = ID.unique();
-    //? TODO: Consider parsing the returned document and returning that. (Use Zod or another schema library)
-    const { $id } = await databases.createDocument(
-      "main",
-      "appointments",
-      id,
-      appointment
+  async (appointment: AppointmentModel, { extra }) => {
+    const result = await extra.repos.appointments.create(
+      AppointmentWithoutID.parse(appointment)
     );
-    return { ...ensureDatesAreStrings(appointment), id: $id };
+    return ensureDatesAreStrings(result);
   }
 );
 
-export const updateAppointment = createAsyncThunk(
+export const updateAppointment = createAsyncAppThunk(
   "appointment/update",
-  async (
-    appointment: Partial<AppointmentModel>
-  ): Promise<Partial<AppointmentModel>> => {
-    const { id, ...data } = appointment;
-    if (!id) {
-      throw new Error("Appointment must have an id");
-    }
-    await databases.updateDocument("main", "appointments", id.toString(), data);
-    return appointment;
-  }
+  async (appointment: Partial<AppointmentModel>, { extra }) =>
+    extra.repos.appointments.update(Appointment.parse(appointment))
 );
 
-export const deleteAppointment = createAsyncThunk(
+export const deleteAppointment = createAsyncAppThunk(
   "appointment/delete",
-  async (id: AppointmentModel["id"], { getState }) => {
-    if (!id) {
-      throw new Error("Appointment must have an id");
-    }
-    await databases.deleteDocument("main", "appointments", id.toString());
+  async (id: Appointment["id"], { extra }) => {
+    await extra.repos.appointments.delete(id);
     return id;
   }
 );
 
-export const fetchAppointments = createAsyncThunk(
+export const fetchAppointments = createAsyncAppThunk(
   "appointments/fetch",
-  async () => {
-    const result = await databases.listDocuments("main", "appointments");
-    return result.documents.map(
-      (doc) =>
-        ensureDatesAreStrings({
-          ...doc,
-          id: doc.$id,
-        } as unknown as AppointmentModel) //! TODO: Use Zod to parse.
-    );
-  }
+  async (_, { extra }) =>
+    extra.repos.appointments
+      .readAll()
+      .then((appointments) => appointments.map(ensureDatesAreStrings))
 );
 
-const ensureDatesAreStrings = (appointment: AppointmentModel) => ({
+const ensureDatesAreStrings = (appointment: Appointment) => ({
   ...appointment,
   startDate: appointment.startDate.toString(),
   endDate: appointment.endDate
@@ -95,10 +66,10 @@ export const appointmentsSlice = createSlice({
       })
       .addCase(updateAppointment.fulfilled, (state, action) => {
         state.appointments = state.appointments.map(
-          (appointment) =>
-            (appointment.id === action.payload.id
+          (appointment): AppointmentModel =>
+            appointment.id === action.payload.id
               ? { appointment, ...action.payload }
-              : appointment) as AppointmentModel
+              : appointment
         );
         state.status = "idle";
       })

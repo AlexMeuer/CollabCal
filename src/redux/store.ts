@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { config as servicesConfig } from "./iocConfig";
 import { consoleLogger } from "./middleware/consoleLogger";
 import { accountSlice, loginWithEmail } from "./slices/account";
 import {
@@ -19,7 +20,9 @@ export const store = configureStore({
     account: accountSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(consoleLogger),
+    getDefaultMiddleware({
+      thunk: { extraArgument: servicesConfig.extra },
+    }).concat(consoleLogger),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
