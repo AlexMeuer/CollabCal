@@ -1,6 +1,5 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
-import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import {
   AppointmentModel,
   ChangeSet,
@@ -24,16 +23,12 @@ import {
   ConfirmationDialog,
   CurrentTimeIndicator,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import {
-  appointments,
-  selectAppointments,
-  useAppDispatch,
-} from "./redux/store";
 import { useSelector } from "react-redux";
-import { Alert, IconButton, Typography } from "@mui/material";
-import { ErrorNotice } from "./components/ErrorNotice";
+import { Alert, Backdrop, CircularProgress, Typography } from "@mui/material";
+import { ErrorNotice } from "../ErrorNotice";
+import { appointments, selectAppointments, useAppDispatch } from "~/redux";
 
-function App() {
+export const CalendarPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const onCommitChanges = React.useCallback(
     ({ added, changed, deleted }: ChangeSet) => {
@@ -62,9 +57,21 @@ function App() {
       })),
     [data]
   );
+
   return (
     <Paper>
       {status === "failed" && <ErrorNotice {...error} />}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={status === "loading"}
+      >
+        <Alert severity="info">
+          <Typography fontWeight="bold">
+            Loading appointments...{" "}
+            <CircularProgress color="inherit" size="1rem" />
+          </Typography>
+        </Alert>
+      </Backdrop>
       {/* @ts-ignore: TS complains that Scheduler doesn't have a children prop. */}
       <Scheduler data={formattedData}>
         <ViewState
@@ -91,6 +98,4 @@ function App() {
       </Scheduler>
     </Paper>
   );
-}
-
-export default App;
+};

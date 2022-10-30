@@ -1,9 +1,9 @@
-import { Databases, ID, Models } from "appwrite";
+import { Databases, ID } from "appwrite";
 import {
   AppointmentsRepo as AppointmentsRepoInterface,
   AppointmentWithoutID,
 } from "../../repos/appointmentsRepo";
-import { Appointment } from "../../types/appointment";
+import { Appointment } from "~/types/appointment";
 import { mapID } from "./dbUtil";
 
 export class AppointmentsRepo implements AppointmentsRepoInterface {

@@ -6,9 +6,9 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
-import { AppointmentWithoutID } from "../../repos/appointmentsRepo";
-import { Appointment } from "../../types/appointment";
-import { createAsyncAppThunk } from "../ioc";
+import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
+import { Appointment } from "~/types/appointment";
+import { createAsyncAppThunk } from "~/redux/ioc";
 
 export const addAppointment = createAsyncAppThunk(
   "appointment/add",

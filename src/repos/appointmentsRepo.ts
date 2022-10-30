@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Appointment } from "../types/appointment";
+import { Appointment } from "~/types/appointment";
 import { Creator, Deleter, Reader, ReaderAll, Updater } from "./crud";
 
 export const AppointmentWithoutID = Appointment.omit({ id: true });

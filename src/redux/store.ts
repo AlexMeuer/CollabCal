@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { config as servicesConfig } from "./iocConfig";
 import { consoleLogger } from "./middleware/consoleLogger";
-import { accountSlice, loginWithEmail } from "./slices/account";
+import {
+  accountSlice,
+  loginWithEmail,
+  fetchSession,
+  logout,
+} from "./slices/account";
 import {
   addAppointment,
   appointmentsSlice,
@@ -39,7 +44,12 @@ export const appointments = {
   fetch: fetchAppointments,
 };
 export const selectAppointments = (state: RootState) => state.appointments;
-store.dispatch(appointments.fetch()); // TODO: This probably shouldn't live here.
 
-export const account = { ...accountSlice.actions, loginWithEmail };
+export const account = {
+  ...accountSlice.actions,
+  loginWithEmail,
+  fetch: fetchSession,
+  logout,
+};
 export const selectAccount = (state: RootState) => state.account;
+export const useIsAuthed = () => useSelector(selectAccount).session !== null;

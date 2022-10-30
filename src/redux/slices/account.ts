@@ -5,7 +5,7 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import { Models } from "appwrite";
-import { account } from "../../appwrite";
+import { account } from "~/appwrite";
 
 export interface LoginPayload {
   email: string;
@@ -21,6 +21,10 @@ export const loginWithEmail = createAsyncThunk(
     return session;
   }
 );
+export const fetchSession = createAsyncThunk("account/fetch", async () => {
+  const result = await account.listSessions();
+  return result.total ? result.sessions[0] : null;
+});
 export const logout = createAsyncThunk("account/logout", () =>
   account.deleteSessions()
 );
@@ -38,16 +42,22 @@ export const accountSlice = createSlice({
   } as AccountState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(loginWithEmail.fulfilled, (state, action) => ({
-      ...state,
-      status: "idle",
-      session: action.payload,
-    }));
-    builder.addCase(logout.fulfilled, (state) => ({
-      ...state,
-      status: "idle",
-      session: null,
-    }));
+    builder
+      .addCase(loginWithEmail.fulfilled, (state, action) => ({
+        ...state,
+        status: "idle",
+        session: action.payload,
+      }))
+      .addCase(fetchSession.fulfilled, (state, action) => ({
+        ...state,
+        status: "idle",
+        session: action.payload,
+      }))
+      .addCase(logout.fulfilled, (state) => ({
+        ...state,
+        status: "idle",
+        session: null,
+      }));
 
     builder
       .addMatcher(isPending, (state) => {

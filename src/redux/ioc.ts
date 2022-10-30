@@ -4,7 +4,7 @@ import {
   AsyncThunkPayloadCreator,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { AppointmentsRepo } from "../repos/appointmentsRepo";
+import { AppointmentsRepo } from "~/repos/appointmentsRepo";
 
 export type Repos = {
   appointments: AppointmentsRepo;
