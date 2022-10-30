@@ -1,5 +1,11 @@
 import { AppointmentModel } from "@devexpress/dx-react-scheduler";
-import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  isPending,
+  isRejected,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { AppointmentWithoutID } from "../../repos/appointmentsRepo";
 import { Appointment } from "../../types/appointment";
 import { createAsyncAppThunk } from "../ioc";
@@ -47,6 +53,7 @@ const ensureDatesAreStrings = (appointment: Appointment) => ({
 export interface AppointmentState {
   appointments: AppointmentModel[];
   status: "idle" | "loading" | "failed";
+  error?: SerializedError;
 }
 
 export const appointmentsSlice = createSlice({
@@ -88,8 +95,15 @@ export const appointmentsSlice = createSlice({
       .addMatcher(isPending, (state) => {
         state.status = "loading";
       })
-      .addMatcher(isRejected, (state) => {
-        state.status = "failed";
-      });
+      .addMatcher(
+        isRejected,
+        (
+          state,
+          action: PayloadAction<unknown, string, unknown, SerializedError>
+        ) => {
+          state.status = "failed";
+          state.error = action.error;
+        }
+      );
   },
 });

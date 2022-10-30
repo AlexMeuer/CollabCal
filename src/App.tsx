@@ -1,5 +1,6 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import {
   AppointmentModel,
   ChangeSet,
@@ -29,6 +30,8 @@ import {
   useAppDispatch,
 } from "./redux/store";
 import { useSelector } from "react-redux";
+import { Alert, IconButton, Typography } from "@mui/material";
+import { ErrorNotice } from "./components/ErrorNotice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,12 +47,12 @@ function App() {
         }
       }
       if (deleted) {
-        dispatch(appointments.delete(deleted));
+        dispatch(appointments.delete(deleted.toString()));
       }
     },
     []
   );
-  const { status, appointments: data } = useSelector(selectAppointments);
+  const { status, appointments: data, error } = useSelector(selectAppointments);
   const formattedData = React.useMemo(
     (): AppointmentModel[] =>
       data.map((apt) => ({
@@ -61,6 +64,7 @@ function App() {
   );
   return (
     <Paper>
+      {status === "failed" && <ErrorNotice {...error} />}
       {/* @ts-ignore: TS complains that Scheduler doesn't have a children prop. */}
       <Scheduler data={formattedData}>
         <ViewState
