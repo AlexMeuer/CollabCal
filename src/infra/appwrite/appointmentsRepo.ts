@@ -1,18 +1,25 @@
-import { Databases, ID } from "appwrite";
+import { Client, Databases, ID, Models } from "appwrite";
 import {
   AppointmentsRepo as AppointmentsRepoInterface,
   AppointmentWithoutID,
-} from "../../repos/appointmentsRepo";
+} from "~/repos/appointmentsRepo";
 import { Appointment } from "~/types/appointment";
 import { mapID } from "./dbUtil";
+import { Observable } from "rxjs";
+
+const DATABASE_ID = "main";
+const COLLECTION_ID = "appointments";
 
 export class AppointmentsRepo implements AppointmentsRepoInterface {
-  constructor(private readonly db: Databases) {}
+  constructor(
+    private readonly client: Client,
+    private readonly db: Databases
+  ) {}
 
   async create(appointment: AppointmentWithoutID): Promise<Appointment> {
     const result = await this.db.createDocument(
-      "main",
-      "appointments",
+      DATABASE_ID,
+      COLLECTION_ID,
       ID.unique(),
       appointment
     );
@@ -29,7 +36,9 @@ export class AppointmentsRepo implements AppointmentsRepoInterface {
     return result.documents.map((doc) => Appointment.parse(mapID(doc)));
   }
 
-  async update(appointment: Appointment): Promise<Appointment> {
+  async update(
+    appointment: Pick<Appointment, "id"> & Partial<Appointment>
+  ): Promise<Appointment> {
     const { id, ...data } = appointment;
     if (!id) {
       throw new Error("Appointment must have an id");
@@ -45,5 +54,17 @@ export class AppointmentsRepo implements AppointmentsRepoInterface {
 
   async delete(id: Appointment["id"]): Promise<void> {
     await this.db.deleteDocument("main", "appointments", id);
+  }
+
+  stream(): Observable<Appointment> {
+    return new Observable((subscriber) => {
+      const unsubscribe = this.client.subscribe<Models.Document>(
+        `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`,
+        (event) => {
+          subscriber.next(Appointment.parse(mapID(event.payload)));
+        }
+      );
+      return unsubscribe;
+    });
   }
 }

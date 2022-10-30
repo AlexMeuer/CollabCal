@@ -24,14 +24,27 @@ import {
   CurrentTimeIndicator,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { useSelector } from "react-redux";
-import { Alert, Backdrop, CircularProgress, Typography } from "@mui/material";
+import {
+  Alert,
+  Backdrop,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { ErrorNotice } from "../ErrorNotice";
 import { appointments, selectAppointments, useAppDispatch } from "~/redux";
+import { useSnackbar } from "notistack";
+
+const truncate = (str: string, n: number) => {
+  return str.length > n ? str.slice(0, n - 1) + "&hellip;" : str;
+};
 
 export const CalendarPage: React.FC = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const dispatch = useAppDispatch();
+  const { status, appointments: data, error } = useSelector(selectAppointments);
   const onCommitChanges = React.useCallback(
-    ({ added, changed, deleted }: ChangeSet) => {
+    async ({ added, changed, deleted }: ChangeSet) => {
       if (added) {
         // TODO: use safer typing
         dispatch(appointments.add(added as AppointmentModel));
@@ -42,12 +55,26 @@ export const CalendarPage: React.FC = () => {
         }
       }
       if (deleted) {
-        dispatch(appointments.delete(deleted.toString()));
+        const apt = data.find((a) => a.id === deleted)!;
+        await dispatch(appointments.delete(deleted.toString()));
+        enqueueSnackbar(
+          `Deleted ${truncate(apt.title || "appointment.", 20)}`,
+          {
+            action: (
+              <Button
+                onClick={() =>
+                  dispatch(appointments.add(apt)).then(() => closeSnackbar())
+                }
+              >
+                Undo
+              </Button>
+            ),
+          }
+        );
       }
     },
-    []
+    [data]
   );
-  const { status, appointments: data, error } = useSelector(selectAppointments);
   const formattedData = React.useMemo(
     (): AppointmentModel[] =>
       data.map((apt) => ({

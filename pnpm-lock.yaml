@@ -19,13 +19,16 @@ specifiers:
   '@types/uuid': ^8.3.4
   '@vitejs/plugin-react': ^2.1.0
   appwrite: ^10.1.0
+  date-fns: ^2.29.3
   framer-motion: ^7.5.3
   moment: ^2.29.4
+  notistack: ^2.0.8
   react: ^18.2.0
   react-dom: ^18.2.0
   react-redux: ^8.0.4
   react-router-dom: ^6.4.2
   redux: ^4.2.0
+  rxjs: ^7.5.7
   typescript: ^4.6.4
   vite: ^3.1.0
   vite-tsconfig-paths: ^3.5.2
@@ -43,16 +46,19 @@ dependencies:
   '@mui/lab': 5.0.0-alpha.102_ej5cswvk7ic6gea53ovjkapqie
   '@mui/material': 5.10.8_ikcgkdnp4bn3rgptamntbhbo7e
   '@mui/system': 5.10.8_h33l6npc22g7vcra72cibfsrvm
-  '@mui/x-date-pickers': 5.0.4_dhvhreha42o2tgb7noq3kpg2rq
+  '@mui/x-date-pickers': 5.0.4_ahbqwlmggayqxypmvcngvpiff4
   '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   appwrite: 10.1.0
+  date-fns: 2.29.3
   framer-motion: 7.5.3_biqbaboplfbrettd7655fr4n2y
   moment: 2.29.4
+  notistack: 2.0.8_m2cq3x7wrnfkfcfs2mwnru2wnq
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-redux: 8.0.4_yfr4m6wk75wdra335rld4tkrbu
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
   redux: 4.2.0
+  rxjs: 7.5.7
   zod: 3.19.1
 
 devDependencies:
@@ -328,7 +334,7 @@ packages:
     resolution: {integrity: sha512-DYmSzkr+jToahwWrsiRA2/pzMEtz9Bq1euJwoOuYwuwIYXnZFtHajY2E6a1VNVDc9jP8YUXK1BvnZH9mmT19Zg==}
     dev: false
 
-  /@date-io/date-fns/2.16.0:
+  /@date-io/date-fns/2.16.0_date-fns@2.29.3:
     resolution: {integrity: sha512-bfm5FJjucqlrnQcXDVU5RD+nlGmL3iWgkHTq3uAZWVIuBu6dDmGa3m8a6zo2VQQpu8ambq9H22UyUpn7590joA==}
     peerDependencies:
       date-fns: ^2.0.0
@@ -337,6 +343,7 @@ packages:
         optional: true
     dependencies:
       '@date-io/core': 2.16.0
+      date-fns: 2.29.3
     dev: false
 
   /@date-io/dayjs/2.16.0:
@@ -422,7 +429,7 @@ packages:
       '@mui/icons-material': 5.10.6_lrxyqjzvf7pkknwtk2aj65ruy4
       '@mui/lab': 5.0.0-alpha.102_ej5cswvk7ic6gea53ovjkapqie
       '@mui/material': 5.10.8_ikcgkdnp4bn3rgptamntbhbo7e
-      '@mui/x-date-pickers': 5.0.4_dhvhreha42o2tgb7noq3kpg2rq
+      '@mui/x-date-pickers': 5.0.4_ahbqwlmggayqxypmvcngvpiff4
       clsx: 1.2.1
       moment: 2.29.4
       prop-types: 15.8.1
@@ -903,7 +910,7 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /@mui/x-date-pickers/5.0.4_dhvhreha42o2tgb7noq3kpg2rq:
+  /@mui/x-date-pickers/5.0.4_ahbqwlmggayqxypmvcngvpiff4:
     resolution: {integrity: sha512-Co4tbwqXSdHfR8UoZSHQpDZqnFdikzQr0lQPG2AjGh9BdB4EdY3YE2+sZyAltjk/AXxp5JzIWDZ2Kj83ClzjwA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -933,7 +940,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.19.4
       '@date-io/core': 2.16.0
-      '@date-io/date-fns': 2.16.0
+      '@date-io/date-fns': 2.16.0_date-fns@2.29.3
       '@date-io/dayjs': 2.16.0
       '@date-io/luxon': 2.16.0
       '@date-io/moment': 2.16.0_moment@2.29.4
@@ -944,6 +951,7 @@ packages:
       '@mui/utils': 5.10.6_react@18.2.0
       '@types/react-transition-group': 4.4.5
       clsx: 1.2.1
+      date-fns: 2.29.3
       moment: 2.29.4
       prop-types: 15.8.1
       react: 18.2.0
@@ -1171,6 +1179,11 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+
+  /date-fns/2.29.3:
+    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -1662,6 +1675,29 @@ packages:
   /node-releases/2.0.6:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
 
+  /notistack/2.0.8_m2cq3x7wrnfkfcfs2mwnru2wnq:
+    resolution: {integrity: sha512-/IY14wkFp5qjPgKNvAdfL5Jp6q90+MjgKTPh4c81r/lW70KeuX6b9pE/4f8L4FG31cNudbN9siiFS5ql1aSLRw==}
+    peerDependencies:
+      '@emotion/react': ^11.4.1
+      '@emotion/styled': ^11.3.0
+      '@mui/material': ^5.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/react':
+        optional: true
+      '@emotion/styled':
+        optional: true
+    dependencies:
+      '@emotion/react': 11.10.4_bjroym7kxlcs2vvwnej4p3gzwu
+      '@emotion/styled': 11.10.4_ogudqqhlstsi7uge4lir7ff3ty
+      '@mui/material': 5.10.8_ikcgkdnp4bn3rgptamntbhbo7e
+      clsx: 1.2.1
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /object-assign/4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -1904,6 +1940,12 @@ packages:
       tslib: 1.14.1
     optionalDependencies:
       luxon: 1.28.0
+    dev: false
+
+  /rxjs/7.5.7:
+    resolution: {integrity: sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==}
+    dependencies:
+      tslib: 2.4.0
     dev: false
 
   /safe-buffer/5.1.2:

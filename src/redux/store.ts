@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { config as servicesConfig } from "./iocConfig";
-import { consoleLogger } from "./middleware/consoleLogger";
+import { config as servicesConfig, repos } from "./iocConfig";
+import { consoleLogger } from "~/redux/middleware/consoleLogger";
 import {
   accountSlice,
   loginWithEmail,
@@ -53,3 +53,8 @@ export const account = {
 };
 export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
+
+repos.appointments.stream().subscribe((appointment) => {
+  store.dispatch(appointmentsSlice.actions.setOne(appointment));
+});
+store.dispatch(appointments.fetch());
