@@ -1,5 +1,7 @@
 export interface AuthSession {
   id: string;
+  name?: string;
+  avatarURL?: string;
 }
 
 export abstract class AuthService {
