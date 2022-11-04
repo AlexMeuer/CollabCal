@@ -23,11 +23,6 @@ jobs:
           version: 7
           run_install: false
 
-      - name: temp
-        env:
-          VITE_FIREBASE_APP_ID: "${{ secrets.VITE_FIREBASE_APP_ID }}"
-        run: echo "${{ env.VITE_FIREBASE_APP_ID }}"
-
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
