@@ -65,7 +65,13 @@ export const SignInPage: React.FC = () => {
         component="form"
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 1, height: "100%", display: "flex", flexDirection: "column" }}
+        sx={{
+          mt: 1,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
         <GoogleButton
           type={themeMode}
