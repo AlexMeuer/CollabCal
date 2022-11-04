@@ -1,3 +1,6 @@
+# Firebase
+.firebase/*.cache
+
 # Nhost
 .nhost
 web/node_modules
