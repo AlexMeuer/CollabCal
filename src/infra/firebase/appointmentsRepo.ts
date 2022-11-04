@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { AppointmentConverter } from "./appointmentConverter";
 
-class AppointmentsRepo implements AppointmentsRepoInterface {
+export class AppointmentsRepo implements AppointmentsRepoInterface {
   constructor(
     db: Firestore,
     converter: FirestoreDataConverter<Appointment> = new AppointmentConverter()
