@@ -1,36 +1,39 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isPending,
-  isRejected,
-} from "@reduxjs/toolkit";
+import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import { Models } from "appwrite";
-import { account } from "~/infra/appwrite";
+import { AuthSession } from "~/services/authService";
+import { createAsyncAppThunk } from "../ioc";
 
 export interface LoginPayload {
   email: string;
   password: string;
 }
-export const loginWithEmail = createAsyncThunk(
+export const loginWithEmail = createAsyncAppThunk(
   "account/login/email",
-  async (payload: LoginPayload) => {
-    const session = await account.createEmailSession(
+  async (payload: LoginPayload, { extra }) => {
+    const session = await extra.services.auth.loginWithEmail(
       payload.email,
       payload.password
     );
     return session;
   }
 );
-export const fetchSession = createAsyncThunk("account/fetch", async () => {
-  const result = await account.listSessions();
-  return result.total ? result.sessions[0] : null;
-});
-export const logout = createAsyncThunk("account/logout", () =>
-  account.deleteSessions()
+export const loginWithGoogle = createAsyncAppThunk(
+  "account/login/google",
+  (_, { extra }) => extra.services.auth.loginWithGoogle()
+);
+export const fetchSession = createAsyncAppThunk(
+  "account/fetch",
+  async (_, { extra }) => {
+    const session = await extra.services.auth.getSession();
+    return session;
+  }
+);
+export const logout = createAsyncAppThunk("account/logout", (_, { extra }) =>
+  extra.services.auth.logout()
 );
 
 export interface AccountState {
-  session: Models.Session | null;
+  session: AuthSession | null;
   status: "idle" | "loading" | "failed";
 }
 

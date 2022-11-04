@@ -7,12 +7,14 @@ import {
   loginWithEmail,
   fetchSession,
   logout,
+  loginWithGoogle,
 } from "./slices/account";
 import {
   addAppointment,
   appointmentsSlice,
   deleteAppointment,
   fetchAppointments,
+  sanitiseAppointment,
   updateAppointment,
 } from "./slices/appointments";
 import { themeModeSlice } from "./slices/themeMode";
@@ -48,6 +50,7 @@ export const selectAppointments = (state: RootState) => state.appointments;
 export const account = {
   ...accountSlice.actions,
   loginWithEmail,
+  loginWithGoogle,
   fetch: fetchSession,
   logout,
 };
@@ -55,6 +58,8 @@ export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
 
 repos.appointments.stream().subscribe((appointment) => {
-  store.dispatch(appointmentsSlice.actions.setOne(appointment));
+  store.dispatch(
+    appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
+  );
 });
 store.dispatch(appointments.fetch());

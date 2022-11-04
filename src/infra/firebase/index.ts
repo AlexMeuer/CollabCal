@@ -3,6 +3,7 @@ import {
   enableMultiTabIndexedDbPersistence,
   getFirestore,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -20,3 +21,5 @@ export const db = getFirestore(app);
 enableMultiTabIndexedDbPersistence(db).catch((err) => {
   console.error("Failed to enable IndexedDB persistence", err);
 });
+
+const auth = getAuth();

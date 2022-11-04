@@ -11,12 +11,12 @@ export class AppointmentConverter
 {
   toFirestore(obj: Appointment) {
     // Discard the ID from the document body.
-    const { id, ...rest } = obj;
+    const { id, ...rest } = obj as Pick<Appointment, "id"> & any;
     return {
       ...rest,
       startDate: new Date(rest.startDate),
-      endDate: rest.endDate ? new Date(rest.endDate) : undefined,
-      deletedAt: rest.deletedAt ? new Date(rest.deletedAt) : undefined,
+      endDate: rest.endDate ? new Date(rest.endDate) : null,
+      deletedAt: rest.deletedAt ? new Date(rest.deletedAt) : null,
     };
   }
 
@@ -24,6 +24,13 @@ export class AppointmentConverter
     snapshot: QueryDocumentSnapshot<DocumentData>,
     options?: SnapshotOptions | undefined
   ): Appointment {
-    return Appointment.parse({ id: snapshot.id, ...snapshot.data(options) });
+    const data = snapshot.data(options);
+    return Appointment.parse({
+      id: snapshot.id,
+      ...data,
+      startDate: new Date(data.startDate.seconds),
+      endDate: data.endDate ? new Date(data.endDate.seconds) : null,
+      deletedAt: data.deletedAt ? new Date(data.deletedAt.seconds) : null,
+    });
   }
 }

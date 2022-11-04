@@ -18,7 +18,7 @@ export const addAppointment = createAsyncAppThunk(
     const result = await extra.repos.appointments.create(
       AppointmentWithoutID.parse(appointment)
     );
-    return mapToPresentationData(result);
+    return sanitiseAppointment(result);
   }
 );
 
@@ -45,10 +45,14 @@ export const fetchAppointments = createAsyncAppThunk(
   async (_, { extra }) =>
     extra.repos.appointments
       .readAll()
-      .then((appointments) => appointments.map(mapToPresentationData))
+      .then((appointments) => appointments.map(sanitiseAppointment))
 );
 
-const mapToPresentationData = (appointment: Appointment) => {
+/**
+ * Makes an appointments safe for Redux by ensuring that Date objects
+ * are converted to ISO strings.
+ */
+export const sanitiseAppointment = (appointment: Appointment) => {
   const startDate = new Date(appointment.startDate);
   return {
     ...appointment,
@@ -88,7 +92,7 @@ export const appointmentsSlice = createSlice({
         state.appointments.splice(
           index,
           index === -1 ? 0 : 1,
-          mapToPresentationData(action.payload)
+          sanitiseAppointment(action.payload)
         );
       }
       if (state.status === "failed") {
