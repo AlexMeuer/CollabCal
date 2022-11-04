@@ -1,4 +1,4 @@
-import { client, databases } from "~/appwrite";
+import { client, databases } from "~/infra/appwrite";
 import { AppointmentsRepo } from "~/infra/appwrite/appointmentsRepo";
 import { ThunkApiConfig } from "./ioc";
 

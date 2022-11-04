@@ -5,7 +5,7 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import { Models } from "appwrite";
-import { account } from "~/appwrite";
+import { account } from "~/infra/appwrite";
 
 export interface LoginPayload {
   email: string;
