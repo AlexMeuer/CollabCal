@@ -14,9 +14,6 @@ export class AppointmentConverter
     const { id, ...rest } = obj as Pick<Appointment, "id"> & any;
     return {
       ...rest,
-      startDate: new Date(rest.startDate),
-      endDate: rest.endDate ? new Date(rest.endDate) : null,
-      deletedAt: rest.deletedAt ? new Date(rest.deletedAt) : null,
     };
   }
 

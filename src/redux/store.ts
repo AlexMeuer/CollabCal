@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { config as servicesConfig, repos } from "./iocConfig";
+import { config as servicesConfig, repos } from "~/redux/iocConfig";
 import { consoleLogger } from "~/redux/middleware/consoleLogger";
 import {
   accountSlice,
@@ -8,16 +8,16 @@ import {
   fetchSession,
   logout,
   loginWithGoogle,
-} from "./slices/account";
+} from "~/redux/slices/account";
 import {
-  addAppointment,
   appointmentsSlice,
+  addAppointment,
   deleteAppointment,
   fetchAppointments,
-  sanitiseAppointment,
   updateAppointment,
-} from "./slices/appointments";
-import { themeModeSlice } from "./slices/themeMode";
+  sanitiseAppointment,
+} from "~/redux/slices/appointments";
+import { themeModeSlice } from "~/redux/slices/themeMode";
 
 export const store = configureStore({
   devTools: import.meta.env.DEV,

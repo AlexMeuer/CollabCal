@@ -54,7 +54,7 @@ export class AppointmentsRepo implements AppointmentsRepoInterface {
     obj: Pick<Appointment, "id"> & Partial<Appointment>
   ): Promise<Appointment> {
     await setDoc(doc(this.collection, obj.id), obj, { merge: true });
-    return this.read(obj.id);
+    return await this.read(obj.id);
   }
 
   delete(id: Appointment["id"]): Promise<void> {

@@ -7,10 +7,10 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
-import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
 import { Appointment } from "~/types/appointment";
-import { createAsyncAppThunk } from "~/redux/ioc";
 import { addMinutes, endOfDay } from "date-fns";
+import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
+import { createAsyncAppThunk } from "../ioc";
 
 export const addAppointment = createAsyncAppThunk(
   "appointment/add",
@@ -26,7 +26,14 @@ export const updateAppointment = createAsyncAppThunk(
   "appointment/update",
   async (appointment: Partial<AppointmentModel>, { extra }) => {
     const result = await extra.repos.appointments.update(
-      Appointment.parse(appointment)
+      Appointment.partial({
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        deletedAt: true,
+        allDay: true,
+      }).parse(appointment)
     );
     return sanitiseAppointment(result);
   }
