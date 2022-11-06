@@ -19,10 +19,10 @@ const config = {
 const app = initializeApp(config);
 
 export const db = getFirestore(app);
-connectFirestoreEmulator(db, "localhost", 8080);
+// connectFirestoreEmulator(db, "localhost", 8080);
 enableMultiTabIndexedDbPersistence(db).catch((err) => {
   console.error("Failed to enable IndexedDB persistence", err);
 });
 
 export const auth = getAuth();
-connectAuthEmulator(auth, "http://localhost:9099");
+// connectAuthEmulator(auth, "http://localhost:9099");

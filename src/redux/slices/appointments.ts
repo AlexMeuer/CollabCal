@@ -33,7 +33,7 @@ export const deleteAppointment = createAsyncAppThunk(
   async (id: Appointment["id"], { extra }) => {
     await extra.repos.appointments.update({
       id,
-      deletedAt: new Date().toISOString(),
+      deletedAt: new Date(),
     });
     await extra.repos.appointments.delete(id);
     return id;
