@@ -10,14 +10,21 @@ import {
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
 import { Copyleft } from "../Copyleft";
-import { account, selectAccount, useAppDispatch } from "~/redux";
+import {
+  account,
+  selectAccount,
+  selectThemeMode,
+  useAppDispatch,
+} from "~/redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import GoogleButton from "react-google-button";
 
 export const SignInPage: React.FC = () => {
   const navigate = useNavigate();
   const { session } = useSelector(selectAccount);
   const dispatch = useAppDispatch();
+  const themeMode = useSelector(selectThemeMode);
 
   useEffect(() => {
     if (session) {
@@ -58,8 +65,18 @@ export const SignInPage: React.FC = () => {
         component="form"
         noValidate
         onSubmit={handleSubmit}
-        sx={{ mt: 1, height: "100%", display: "flex", flexDirection: "column" }}
+        sx={{
+          mt: 1,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
+        <GoogleButton
+          type={themeMode}
+          onClick={() => dispatch(account.loginWithGoogle())}
+        />
         <TextField
           margin="normal"
           required

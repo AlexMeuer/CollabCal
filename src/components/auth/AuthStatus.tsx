@@ -4,17 +4,13 @@ import {
   Box,
   Avatar,
   Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Button,
-  Grid,
-  Link,
   IconButton,
+  Button,
+
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectAccount } from "~/redux";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Copyleft } from "~/components/Copyleft";
 
 interface CopyableInfoProps {
@@ -27,7 +23,7 @@ const CopyableInfo: React.FC<CopyableInfoProps> = ({
   value,
   monospace,
 }) => (
-  <Typography fontWeight="bold" component="div">
+  <Typography component="div">
     {label}:{" "}
     <Box display="inline" fontFamily={monospace ? "monospace" : undefined}>
       {value}
@@ -64,14 +60,18 @@ export const AuthStatus: React.FC = () => {
         height: "100%",
       }}
     >
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+      <Avatar src={session?.avatarURL} sx={{ m: 1, bgcolor: "secondary.main" }}>
         <AccountCircle />
       </Avatar>
       <Typography component="h1" variant="h5">
-        {session?.clientName}
+        {session?.id}
       </Typography>
       <Box mt={1} height="100%" display="flex" flexDirection="column">
-        <CopyableInfo label="User ID" value={session?.userId || "unknown"} />
+        <CopyableInfo label="ID" value={session?.id || "unknown"} />
+        <CopyableInfo label="Name" value={session?.name || "unknown"} />
+        <Button onClick={() => navigate("/")}>
+          Calendar
+        </Button>
         <Button
           onClick={() => navigate("/auth/out")}
           fullWidth

@@ -1,21 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { config as servicesConfig, repos } from "./iocConfig";
+import { config as servicesConfig, repos } from "~/redux/iocConfig";
 import { consoleLogger } from "~/redux/middleware/consoleLogger";
 import {
   accountSlice,
   loginWithEmail,
   fetchSession,
   logout,
-} from "./slices/account";
+  loginWithGoogle,
+} from "~/redux/slices/account";
 import {
-  addAppointment,
   appointmentsSlice,
+  addAppointment,
   deleteAppointment,
   fetchAppointments,
   updateAppointment,
-} from "./slices/appointments";
-import { themeModeSlice } from "./slices/themeMode";
+  sanitiseAppointment,
+} from "~/redux/slices/appointments";
+import { themeModeSlice } from "~/redux/slices/themeMode";
 
 export const store = configureStore({
   devTools: import.meta.env.DEV,
@@ -48,6 +50,7 @@ export const selectAppointments = (state: RootState) => state.appointments;
 export const account = {
   ...accountSlice.actions,
   loginWithEmail,
+  loginWithGoogle,
   fetch: fetchSession,
   logout,
 };
@@ -55,6 +58,8 @@ export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
 
 repos.appointments.stream().subscribe((appointment) => {
-  store.dispatch(appointmentsSlice.actions.setOne(appointment));
+  store.dispatch(
+    appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
+  );
 });
 store.dispatch(appointments.fetch());

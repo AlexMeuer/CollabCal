@@ -94,7 +94,7 @@ export const CalendarPage: React.FC = () => {
       >
         <Alert severity="info">
           <Typography fontWeight="bold">
-            Loading appointments...{" "}
+            Syncing appointments...{" "}
             <CircularProgress color="inherit" size="1rem" />
           </Typography>
         </Alert>

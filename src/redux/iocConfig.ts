@@ -1,13 +1,19 @@
-import { client, databases } from "~/appwrite";
-import { AppointmentsRepo } from "~/infra/appwrite/appointmentsRepo";
+import { auth, db } from "~/infra/firebase";
+import { AppointmentsRepo } from "~/infra/firebase/appointmentsRepo";
+import { AuthService } from "~/infra/firebase/authService";
 import { ThunkApiConfig } from "./ioc";
 
 export const repos = {
-  appointments: new AppointmentsRepo(client, databases),
+  appointments: new AppointmentsRepo(db),
+};
+
+const services = {
+  auth: new AuthService(auth),
 };
 
 export const config: ThunkApiConfig = {
   extra: {
     repos,
+    services,
   },
 };

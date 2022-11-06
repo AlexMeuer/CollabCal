@@ -7,10 +7,10 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
-import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
 import { Appointment } from "~/types/appointment";
-import { createAsyncAppThunk } from "~/redux/ioc";
 import { addMinutes, endOfDay } from "date-fns";
+import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
+import { createAsyncAppThunk } from "../ioc";
 
 export const addAppointment = createAsyncAppThunk(
   "appointment/add",
@@ -18,14 +18,25 @@ export const addAppointment = createAsyncAppThunk(
     const result = await extra.repos.appointments.create(
       AppointmentWithoutID.parse(appointment)
     );
-    return mapToPresentationData(result);
+    return sanitiseAppointment(result);
   }
 );
 
 export const updateAppointment = createAsyncAppThunk(
   "appointment/update",
-  async (appointment: Partial<AppointmentModel>, { extra }) =>
-    extra.repos.appointments.update(Appointment.parse(appointment))
+  async (appointment: Partial<AppointmentModel>, { extra }) => {
+    const result = await extra.repos.appointments.update(
+      Appointment.partial({
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        deletedAt: true,
+        allDay: true,
+      }).parse(appointment)
+    );
+    return sanitiseAppointment(result);
+  }
 );
 
 export const deleteAppointment = createAsyncAppThunk(
@@ -33,7 +44,7 @@ export const deleteAppointment = createAsyncAppThunk(
   async (id: Appointment["id"], { extra }) => {
     await extra.repos.appointments.update({
       id,
-      deletedAt: new Date().toISOString(),
+      deletedAt: new Date(),
     });
     await extra.repos.appointments.delete(id);
     return id;
@@ -42,13 +53,17 @@ export const deleteAppointment = createAsyncAppThunk(
 
 export const fetchAppointments = createAsyncAppThunk(
   "appointments/fetch",
-  async (_, { extra }) =>
-    extra.repos.appointments
-      .readAll()
-      .then((appointments) => appointments.map(mapToPresentationData))
+  async (_, { extra }) => {
+    const result = await extra.repos.appointments.readAll();
+    return result.map(sanitiseAppointment);
+  }
 );
 
-const mapToPresentationData = (appointment: Appointment) => {
+/**
+ * Makes an appointments safe for Redux by ensuring that Date objects
+ * are converted to ISO strings.
+ */
+export const sanitiseAppointment = (appointment: Appointment) => {
   const startDate = new Date(appointment.startDate);
   return {
     ...appointment,
@@ -76,7 +91,7 @@ export const appointmentsSlice = createSlice({
     status: "idle",
   } as AppointmentState,
   reducers: {
-    setOne: (state, action: PayloadAction<Appointment>) => {
+    setOne: (state, action: PayloadAction<AppointmentModel>) => {
       if (action.payload.deletedAt) {
         state.appointments = state.appointments.filter(
           (a) => a.id !== action.payload.id
@@ -85,11 +100,7 @@ export const appointmentsSlice = createSlice({
         const index = state.appointments.findIndex(
           (apt) => action.payload.id === apt.id
         );
-        state.appointments.splice(
-          index,
-          index === -1 ? 0 : 1,
-          mapToPresentationData(action.payload)
-        );
+        state.appointments.splice(index, index === -1 ? 0 : 1, action.payload);
       }
       if (state.status === "failed") {
         state.status = "idle";
