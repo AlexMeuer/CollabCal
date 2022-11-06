@@ -58,8 +58,6 @@ export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
 
 repos.appointments.stream().subscribe((appointment) => {
-  store.dispatch(
-    appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
-  );
+  store.dispatch(appointmentsSlice.actions.setOne(appointment));
 });
 store.dispatch(appointments.fetch());
