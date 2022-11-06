@@ -24,8 +24,12 @@ export const addAppointment = createAsyncAppThunk(
 
 export const updateAppointment = createAsyncAppThunk(
   "appointment/update",
-  async (appointment: Partial<AppointmentModel>, { extra }) =>
-    extra.repos.appointments.update(Appointment.parse(appointment))
+  async (appointment: Partial<AppointmentModel>, { extra }) => {
+    const result = await extra.repos.appointments.update(
+      Appointment.parse(appointment)
+    );
+    return sanitiseAppointment(result);
+  }
 );
 
 export const deleteAppointment = createAsyncAppThunk(
@@ -42,10 +46,10 @@ export const deleteAppointment = createAsyncAppThunk(
 
 export const fetchAppointments = createAsyncAppThunk(
   "appointments/fetch",
-  async (_, { extra }) =>
-    extra.repos.appointments
-      .readAll()
-      .then((appointments) => appointments.map(sanitiseAppointment))
+  async (_, { extra }) => {
+    const result = await extra.repos.appointments.readAll();
+    return result.map(sanitiseAppointment);
+  }
 );
 
 /**
@@ -80,7 +84,7 @@ export const appointmentsSlice = createSlice({
     status: "idle",
   } as AppointmentState,
   reducers: {
-    setOne: (state, action: PayloadAction<Appointment>) => {
+    setOne: (state, action: PayloadAction<AppointmentModel>) => {
       if (action.payload.deletedAt) {
         state.appointments = state.appointments.filter(
           (a) => a.id !== action.payload.id
@@ -89,11 +93,7 @@ export const appointmentsSlice = createSlice({
         const index = state.appointments.findIndex(
           (apt) => action.payload.id === apt.id
         );
-        state.appointments.splice(
-          index,
-          index === -1 ? 0 : 1,
-          sanitiseAppointment(action.payload)
-        );
+        state.appointments.splice(index, index === -1 ? 0 : 1, action.payload);
       }
       if (state.status === "failed") {
         state.status = "idle";

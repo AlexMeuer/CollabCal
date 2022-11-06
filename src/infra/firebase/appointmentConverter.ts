@@ -28,9 +28,9 @@ export class AppointmentConverter
     return Appointment.parse({
       id: snapshot.id,
       ...data,
-      startDate: new Date(data.startDate.seconds),
-      endDate: data.endDate ? new Date(data.endDate.seconds) : null,
-      deletedAt: data.deletedAt ? new Date(data.deletedAt.seconds) : null,
+      startDate: data.startDate.toDate(),
+      endDate: data.endDate ? data.endDate.toDate() : null,
+      deletedAt: data.deletedAt ? data.deletedAt.toDate() : null,
     });
   }
 }
