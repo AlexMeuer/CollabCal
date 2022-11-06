@@ -24,7 +24,6 @@ specifiers:
   date-fns: ^2.29.3
   firebase: ^9.13.0
   framer-motion: ^7.5.3
-  i: ^0.3.7
   moment: ^2.29.4
   notistack: ^2.0.8
   npm: ^8.19.3
@@ -60,7 +59,6 @@ dependencies:
   date-fns: 2.29.3
   firebase: 9.13.0
   framer-motion: 7.5.3_biqbaboplfbrettd7655fr4n2y
-  i: 0.3.7
   moment: 2.29.4
   notistack: 2.0.8_m2cq3x7wrnfkfcfs2mwnru2wnq
   npm: 8.19.3
@@ -2184,11 +2182,6 @@ packages:
 
   /http-parser-js/0.5.8:
     resolution: {integrity: sha512-SGeBX54F94Wgu5RH3X5jsDtf4eHyRogWX1XGT3b4HuW3tQPM4AaBzoUji/4AAJNXCEOWZ5O0DgZmJw1947gD5Q==}
-    dev: false
-
-  /i/0.3.7:
-    resolution: {integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==}
-    engines: {node: '>=0.4'}
     dev: false
 
   /idb/7.0.1:

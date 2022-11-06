@@ -27,7 +27,6 @@
     "date-fns": "^2.29.3",
     "firebase": "^9.13.0",
     "framer-motion": "^7.5.3",
-    "i": "^0.3.7",
     "moment": "^2.29.4",
     "notistack": "^2.0.8",
     "npm": "^8.19.3",
