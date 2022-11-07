@@ -4,7 +4,7 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "@firebase/firestore";
-import { Appointment } from "~/types/appointment";
+import { Appointment } from "shared-types/appointment";
 
 export class AppointmentConverter
   implements FirestoreDataConverter<Appointment>

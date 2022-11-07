@@ -7,7 +7,7 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
-import { Appointment } from "~/types/appointment";
+import { Appointment } from "shared-types/appointment";
 import { addMinutes, endOfDay } from "date-fns";
 import { AppointmentWithoutID } from "~/repos/appointmentsRepo";
 import { createAsyncAppThunk } from "../ioc";
@@ -72,8 +72,8 @@ export const sanitiseAppointment = (appointment: Appointment) => {
     endDate: (appointment.endDate
       ? new Date(appointment.endDate)
       : appointment.allDay
-      ? endOfDay(startDate)
-      : addMinutes(startDate, 5)
+        ? endOfDay(startDate)
+        : addMinutes(startDate, 5)
     ).toISOString(),
   };
 };
