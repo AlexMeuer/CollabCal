@@ -3,7 +3,7 @@ import {
   AppointmentsRepo as AppointmentsRepoInterface,
   AppointmentWithoutID,
 } from "~/repos/appointmentsRepo";
-import { Appointment } from "~/types/appointment";
+import { Appointment } from "shared-types/appointment";
 import { mapID } from "./dbUtil";
 import { Observable } from "rxjs";
 
@@ -14,7 +14,7 @@ export class AppointmentsRepo implements AppointmentsRepoInterface {
   constructor(
     private readonly client: Client,
     private readonly db: Databases
-  ) {}
+  ) { }
 
   async create(appointment: AppointmentWithoutID): Promise<Appointment> {
     const result = await this.db.createDocument(

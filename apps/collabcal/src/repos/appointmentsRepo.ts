@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Appointment } from "~/types/appointment";
+import { Appointment } from "shared-types/appointment";
 import {
   Creator,
   Deleter,

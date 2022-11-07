@@ -2,7 +2,7 @@ import {
   AppointmentsRepo as AppointmentsRepoInterface,
   AppointmentWithoutID,
 } from "~/repos/appointmentsRepo";
-import { Appointment } from "~/types/appointment";
+import { Appointment } from "shared-types/appointment";
 import { Observable } from "rxjs";
 import {
   Firestore,
