@@ -1,12 +1,15 @@
+import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import fetch from "node-fetch-commonjs";
 import { z } from "zod";
+import { ryEvent } from "./ryTypes";
 
 const BodySchema = z.object({
   cookie: z.string().min(1),
 });
 
-export const ry = functions
+export const syncRyEvents = functions
   .region("europe-west1")
   .https.onRequest(async (req, res) => {
     if (req.method !== "POST") {
@@ -15,9 +18,16 @@ export const ry = functions
     }
     const body = BodySchema.safeParse(req.body);
     if (!body.success) {
-      res.status(400).send("Bad request");
+      res.status(400).send(body.error.toString());
       return;
     }
+
+    initializeApp({
+      credential: applicationDefault(),
+    });
+
+    const db = getFirestore();
+    const collectionRef = db.collection("appointments");
 
     const response = await fetch(
       "https://community.remoteyear.com/api/web/v1/spaces/8097043/event_instances/upcoming?page=1&per_page=50",
@@ -32,14 +42,46 @@ export const ry = functions
       }
     );
 
-    if (response.ok) {
-      res.status(200).send(await response.json());
+    if (!response.ok) {
+      console.error(
+        `Unexpected response: ${response.status} ${response.statusText}`,
+        await response.json()
+      );
+      res.status(500).send("Internal server error");
       return;
     }
 
-    console.error(
-      `Unexpected response: ${response.status} ${response.statusText}`,
-      await response.json()
-    );
-    res.status(500).send("Internal server error");
+    const raw = await response.json();
+    if (!Array.isArray(raw)) {
+      console.error("Unexpected response", raw);
+      res.status(500).send("Internal server error");
+      return;
+    }
+
+    const batch = db.batch();
+    const fails = [];
+    for (const datum of raw) {
+      const parsed = ryEvent.safeParse(datum);
+      if (parsed.success) {
+        const domainEvent = mapRyEventToDomain(parsed.data);
+        const docRef = collectionRef.doc(parsed.data.id);
+        batch.set(docRef, domainEvent, { merge: true });
+      } else {
+        fails.push(parsed.error);
+      }
+    }
+    await batch.commit();
+
+    res.status(200).send({ total: raw.length, failed: fails.length, fails });
   });
+
+// Firebase-functions fails to deploy if we import a workspace dependency.
+const mapRyEventToDomain = (event: ryEvent) => ({
+  title: event.post.title,
+  description: event.post.content.description,
+  startDate: new Date(event.starts_at),
+  endDate: new Date(event.ends_at),
+  allDay: false,
+  external: true,
+  externalUrl: `https://community.remoteyear.com/events/${event.post.slug}?instance_index=${event.post.event_instance.index}`,
+});

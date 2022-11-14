@@ -33,6 +33,35 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       createTheme({
         palette: {
           mode: themeMode,
+          primary: {
+            main: "#f4dbd6",
+          },
+          secondary: {
+            main: "#f5bde6",
+          },
+          error: {
+            main: "#ed8796",
+          },
+          text: {
+            primary: "#cad3f5",
+            secondary: "#b8c0e0",
+            disabled: "#363a4f",
+          },
+          info: {
+            main: "#c6a0f6",
+          },
+          success: {
+            main: "#a6da95",
+          },
+          divider: "#24273a",
+          common: {
+            black: "#cad3f5",
+            white: "#181926",
+          },
+          background: {
+            default: "#181926",
+            paper: "#181926",
+          },
         },
         components: {
           MuiLink: {
