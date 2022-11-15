@@ -2,7 +2,7 @@
   "name": "shared-types",
   "version": "1.0.0",
   "license": "GPLv3",
-  "dependencies": {
+  "peerDependencies": {
     "zod": "^3.19.1"
   }
 }

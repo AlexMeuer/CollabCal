@@ -8,5 +8,7 @@ export const Appointment = z.object({
   endDate: z.date().nullish(),
   deletedAt: z.date().nullish(),
   allDay: z.boolean().default(false),
+  external: z.boolean().default(false),
+  externalUrl: z.string().optional(),
 });
 export type Appointment = z.infer<typeof Appointment>;

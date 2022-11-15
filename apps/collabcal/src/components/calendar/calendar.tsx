@@ -1,10 +1,10 @@
 import React from "react";
-import Paper from "@mui/material/Paper";
 import {
   AppointmentModel,
   ChangeSet,
   EditingState,
   IntegratedEditing,
+  Resource,
   ViewState,
 } from "@devexpress/dx-react-scheduler";
 import {
@@ -22,6 +22,7 @@ import {
   DragDropProvider,
   ConfirmationDialog,
   CurrentTimeIndicator,
+  Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { useSelector } from "react-redux";
 import {
@@ -30,6 +31,7 @@ import {
   Button,
   CircularProgress,
   Typography,
+  Paper,
 } from "@mui/material";
 import { ErrorNotice } from "../ErrorNotice";
 import { appointments, selectAppointments, useAppDispatch } from "~/redux";
@@ -85,6 +87,19 @@ export const CalendarPage: React.FC = () => {
     [data]
   );
 
+  const resources: Resource[] = React.useMemo(
+    () => [
+      {
+        fieldName: "eventType",
+        instances: [
+          { id: "normal", color: "#8bd5ca", text: "Normal" },
+          { id: "external", color: "#b7bdf8", text: "External" },
+        ],
+      },
+    ],
+    []
+  );
+
   return (
     <Paper>
       {status === "failed" && <ErrorNotice {...error} />}
@@ -117,6 +132,7 @@ export const CalendarPage: React.FC = () => {
         <TodayButton />
         <ViewSwitcher />
         <Appointments />
+        <Resources data={resources} mainResourceName="eventType" />
         <ConfirmationDialog />
         <AppointmentTooltip showCloseButton showOpenButton />
         <AppointmentForm />

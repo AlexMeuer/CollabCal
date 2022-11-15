@@ -63,7 +63,9 @@ export const fetchAppointments = createAsyncAppThunk(
  * Makes an appointments safe for Redux by ensuring that Date objects
  * are converted to ISO strings.
  */
-export const sanitiseAppointment = (appointment: Appointment) => {
+export const sanitiseAppointment = (
+  appointment: Appointment
+): AppointmentModel => {
   const startDate = new Date(appointment.startDate);
   return {
     ...appointment,
@@ -72,9 +74,10 @@ export const sanitiseAppointment = (appointment: Appointment) => {
     endDate: (appointment.endDate
       ? new Date(appointment.endDate)
       : appointment.allDay
-        ? endOfDay(startDate)
-        : addMinutes(startDate, 5)
+      ? endOfDay(startDate)
+      : addMinutes(startDate, 5)
     ).toISOString(),
+    eventType: appointment.external ? "external" : "normal",
   };
 };
 
