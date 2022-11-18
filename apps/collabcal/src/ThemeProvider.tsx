@@ -45,7 +45,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
           text: {
             primary: "#cad3f5",
             secondary: "#b8c0e0",
-            disabled: "#363a4f",
+            disabled: "#939ab7",
           },
           info: {
             main: "#c6a0f6",

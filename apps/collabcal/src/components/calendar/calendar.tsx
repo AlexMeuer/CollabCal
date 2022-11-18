@@ -150,7 +150,9 @@ export const CalendarPage: React.FC = () => {
             <TooltipCommandButton {...props} meta={appointmentMeta} />
           )}
         />
-        <AppointmentForm />
+        <AppointmentForm
+          readOnly={appointmentMeta?.data.eventType === "external"}
+        />
         <DragDropProvider />
         <CurrentTimeIndicator shadePreviousAppointments shadePreviousCells />
       </Scheduler>

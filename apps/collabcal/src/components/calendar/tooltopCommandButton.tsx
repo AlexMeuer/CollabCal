@@ -20,9 +20,7 @@ export const TooltipCommandButton: React.FC<TooltipCommandButtonProps> = ({
       case "delete":
         return <Icons.Delete />;
       case "open":
-        // Until https://github.com/AlexMeuer/CollabCal/issues/26 is fixed, we
-        // can't show the open button for external appointments.
-        return isExternal ? /*<Icons.Preview />*/ null : <Icons.Edit />;
+        return isExternal ? <Icons.Preview /> : <Icons.Edit />;
       case "close":
         return <Icons.Close />;
     }

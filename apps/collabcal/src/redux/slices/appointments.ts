@@ -114,30 +114,10 @@ export const appointmentsSlice = createSlice({
   extraReducers(builder) {
     // These reducers implicity rely on Immer to produce the next state.
 
-    builder
-      // .addCase(addAppointment.fulfilled, (state, action) => {
-      //   state.appointments.push(action.payload);
-      //   state.status = "idle";
-      // })
-      // .addCase(updateAppointment.fulfilled, (state, action) => {
-      //   state.appointments = state.appointments.map(
-      //     (appointment): AppointmentModel =>
-      //       appointment.id === action.payload.id
-      //         ? { appointment, ...mapToPresentationData(action.payload) }
-      //         : appointment
-      //   );
-      //   state.status = "idle";
-      // })
-      // .addCase(deleteAppointment.fulfilled, (state, action) => {
-      //   state.appointments = state.appointments.filter(
-      //     (appointment) => appointment.id !== action.payload
-      //   );
-      //   state.status = "idle";
-      // })
-      .addCase(fetchAppointments.fulfilled, (state, action) => {
-        state.appointments = action.payload;
-        state.status = "idle";
-      });
+    builder.addCase(fetchAppointments.fulfilled, (state, action) => {
+      state.appointments = action.payload;
+      state.status = "idle";
+    });
 
     builder
       .addMatcher(isFulfilled, (state) => {
