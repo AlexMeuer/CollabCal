@@ -1,17 +1,10 @@
 import React, { useEffect } from "react";
 import { AccountCircle, ContentPaste } from "@mui/icons-material";
-import {
-  Box,
-  Avatar,
-  Typography,
-  IconButton,
-  Button,
-
-} from "@mui/material";
+import { Box, Avatar, Typography, IconButton, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectAccount } from "~/redux";
 import { useNavigate } from "react-router-dom";
-import { Copyleft } from "~/components/Copyleft";
+import { Copyleft } from "~/components/copyleft";
 
 interface CopyableInfoProps {
   label: string;
@@ -69,9 +62,7 @@ export const AuthStatus: React.FC = () => {
       <Box mt={1} height="100%" display="flex" flexDirection="column">
         <CopyableInfo label="ID" value={session?.id || "unknown"} />
         <CopyableInfo label="Name" value={session?.name || "unknown"} />
-        <Button onClick={() => navigate("/")}>
-          Calendar
-        </Button>
+        <Button onClick={() => navigate("/")}>Calendar</Button>
         <Button
           onClick={() => navigate("/auth/out")}
           fullWidth

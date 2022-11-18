@@ -77,6 +77,7 @@ export const sanitiseAppointment = (
       ? endOfDay(startDate)
       : addMinutes(startDate, 5)
     ).toISOString(),
+    deletedAt: appointment.deletedAt?.toISOString(),
     eventType: appointment.external ? "external" : "normal",
   };
 };

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import { Copyleft } from "../Copyleft";
+import { Copyleft } from "../copyleft";
 import {
   account,
   selectAccount,
