@@ -1,9 +1,9 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import { Root } from "~/layouts/root";
-import { SignInPage } from "~/components/auth/SignIn";
+import { SignInPage } from "~/components/auth/signIn";
 import { CalendarPage } from "~/components/calendar/calendar";
 import { SideImageLayout } from "./layouts/sideImage";
-import { AuthStatus } from "./components/auth/AuthStatus";
+import { AuthStatus } from "./components/auth/authStatus";
 import { account, store } from "./redux";
 
 export const router = createBrowserRouter([

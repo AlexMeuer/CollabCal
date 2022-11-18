@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  AppointmentMeta,
   AppointmentModel,
   ChangeSet,
   EditingState,
@@ -33,9 +34,10 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import { ErrorNotice } from "../ErrorNotice";
+import { ErrorNotice } from "../errorNotice";
 import { appointments, selectAppointments, useAppDispatch } from "~/redux";
 import { useSnackbar } from "notistack";
+import { TooltipCommandButton } from "./tooltopCommandButton";
 
 const truncate = (str: string, n: number) => {
   return str.length > n ? str.slice(0, n - 1) + "&hellip;" : str;
@@ -100,6 +102,11 @@ export const CalendarPage: React.FC = () => {
     []
   );
 
+  // TODO: use something like `useCastingState<AppointmentMeta, MyAptModel>()` for better typing support.
+  const [appointmentMeta, setAppointmentMeta] = React.useState<
+    AppointmentMeta | undefined
+  >(undefined);
+
   return (
     <Paper>
       {status === "failed" && <ErrorNotice {...error} />}
@@ -134,8 +141,18 @@ export const CalendarPage: React.FC = () => {
         <Appointments />
         <Resources data={resources} mainResourceName="eventType" />
         <ConfirmationDialog />
-        <AppointmentTooltip showCloseButton showOpenButton />
-        <AppointmentForm />
+        <AppointmentTooltip
+          showCloseButton
+          showOpenButton
+          appointmentMeta={appointmentMeta}
+          onAppointmentMetaChange={setAppointmentMeta}
+          commandButtonComponent={(props) => (
+            <TooltipCommandButton {...props} meta={appointmentMeta} />
+          )}
+        />
+        <AppointmentForm
+          readOnly={appointmentMeta?.data.eventType === "external"}
+        />
         <DragDropProvider />
         <CurrentTimeIndicator shadePreviousAppointments shadePreviousCells />
       </Scheduler>
