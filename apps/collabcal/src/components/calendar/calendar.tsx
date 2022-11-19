@@ -144,6 +144,7 @@ export const CalendarPage: React.FC = () => {
         <AppointmentTooltip
           showCloseButton
           showOpenButton
+          onVisibilityChange={(visible) => !visible && setTimeout(() => setAppointmentMeta(undefined), 750)}
           appointmentMeta={appointmentMeta}
           onAppointmentMetaChange={setAppointmentMeta}
           commandButtonComponent={(props) => (
