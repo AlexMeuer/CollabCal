@@ -1,3 +1,6 @@
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/alexmeuer/CollabCal/Deploy%20to%20Firebase%20Hosting%20on%20merge)
+![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/AlexMeuer/CollabCal)
+
 # Quickstart
 
 Prerequisites:
