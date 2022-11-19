@@ -5,5 +5,11 @@ service cloud.firestore {
       allow read, write: if
           request.time < timestamp.date(2022, 12, 4);
     }
+    match /appointments/{id} {
+      allow read;
+      allow create;
+      allow update: if resource.data.external == false;
+      allow delete;
+    }
   }
 }
