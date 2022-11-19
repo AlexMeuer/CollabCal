@@ -1,4 +1,5 @@
 import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { z } from "zod";
 import { syncRyEvents as syncRyEventsImpl } from "./syncEvents";
@@ -27,4 +28,17 @@ export const syncRyEvents = functions
 
     const result = await syncRyEventsImpl(body.data.cookie);
     res.status(200).send(result);
+  });
+
+export const createUserDoc = functions
+  .auth
+  .user()
+  .onCreate(async (user) => {
+    initializeApp({
+      credential: applicationDefault(),
+    });
+    await getFirestore().collection("users").doc(user.uid).set({
+      name: user.displayName,
+      photoURL: user.photoURL,
+    });
   });
