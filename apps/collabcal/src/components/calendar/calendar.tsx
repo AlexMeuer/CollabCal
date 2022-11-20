@@ -38,6 +38,7 @@ import { ErrorNotice } from "../errorNotice";
 import { appointments, selectAppointments, useAppDispatch } from "~/redux";
 import { useSnackbar } from "notistack";
 import { TooltipCommandButton } from "./tooltopCommandButton";
+import { TooltipContent } from "./tooltipContent";
 
 const truncate = (str: string, n: number) => {
   return str.length > n ? str.slice(0, n - 1) + "&hellip;" : str;
@@ -146,9 +147,10 @@ export const CalendarPage: React.FC = () => {
           showOpenButton
           appointmentMeta={appointmentMeta}
           onAppointmentMetaChange={setAppointmentMeta}
-          commandButtonComponent={(props) => (
-            <TooltipCommandButton {...props} meta={appointmentMeta} />
-          )}
+          contentComponent={TooltipContent}
+          commandButtonComponent={(
+            props: AppointmentTooltip.CommandButtonProps
+          ) => <TooltipCommandButton {...props} meta={appointmentMeta} />}
         />
         <AppointmentForm
           readOnly={appointmentMeta?.data.eventType === "external"}
