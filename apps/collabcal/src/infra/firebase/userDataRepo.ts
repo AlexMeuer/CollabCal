@@ -6,12 +6,9 @@ import {
   collection,
   CollectionReference,
   FirestoreDataConverter,
-  addDoc,
   getDoc,
   doc,
-  getDocs,
   setDoc,
-  deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
 import { UserDataConverter } from "./userDataConverter";

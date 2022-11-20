@@ -18,6 +18,8 @@ import {
   sanitiseAppointment,
 } from "~/redux/slices/appointments";
 import { themeModeSlice } from "~/redux/slices/themeMode";
+import { currentuserDataFetcher } from "./middleware/currentUserDataFetcher";
+import { userDataSlice } from "./slices/userData";
 
 export const store = configureStore({
   devTools: import.meta.env.DEV,
@@ -25,11 +27,12 @@ export const store = configureStore({
     theme: themeModeSlice.reducer,
     appointments: appointmentsSlice.reducer,
     account: accountSlice.reducer,
+    userData: userDataSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: { extraArgument: servicesConfig.extra },
-    }).concat(consoleLogger),
+    }).concat([consoleLogger, currentuserDataFetcher]),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -57,6 +60,10 @@ export const account = {
 export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
 
+export const userData = userDataSlice.actions;
+export const selectUserData = (state: RootState) => state.userData;
+
+// PERF: make this an action to allow turning on/off?
 repos.appointments.stream().subscribe((appointment) => {
   store.dispatch(
     appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
