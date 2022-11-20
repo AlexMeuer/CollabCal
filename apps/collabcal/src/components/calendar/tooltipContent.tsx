@@ -10,5 +10,5 @@ export const TooltipContent: React.FC<AppointmentTooltip.ContentProps> = ({
   <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
     <ReactMarkdown>{appointmentData?.description}</ReactMarkdown>
     {children}
-  </AppointmentTooltip.Content>1
+  </AppointmentTooltip.Content>
 );

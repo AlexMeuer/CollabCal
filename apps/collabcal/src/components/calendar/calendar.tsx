@@ -148,9 +148,9 @@ export const CalendarPage: React.FC = () => {
           appointmentMeta={appointmentMeta}
           onAppointmentMetaChange={setAppointmentMeta}
           contentComponent={TooltipContent}
-          commandButtonComponent={(props) => (
-            <TooltipCommandButton {...props} meta={appointmentMeta} />
-          )}
+          commandButtonComponent={(
+            props: AppointmentTooltip.CommandButtonProps
+          ) => <TooltipCommandButton {...props} meta={appointmentMeta} />}
         />
         <AppointmentForm
           readOnly={appointmentMeta?.data.eventType === "external"}
