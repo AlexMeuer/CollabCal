@@ -38,6 +38,7 @@ import { ErrorNotice } from "../errorNotice";
 import { appointments, selectAppointments, useAppDispatch } from "~/redux";
 import { useSnackbar } from "notistack";
 import { TooltipCommandButton } from "./tooltopCommandButton";
+import ReactMarkdown from "react-markdown";
 
 const truncate = (str: string, n: number) => {
   return str.length > n ? str.slice(0, n - 1) + "&hellip;" : str;
@@ -146,6 +147,7 @@ export const CalendarPage: React.FC = () => {
           showOpenButton
           appointmentMeta={appointmentMeta}
           onAppointmentMetaChange={setAppointmentMeta}
+          contentComponent={Content}
           commandButtonComponent={(props) => (
             <TooltipCommandButton {...props} meta={appointmentMeta} />
           )}
@@ -159,3 +161,18 @@ export const CalendarPage: React.FC = () => {
     </Paper>
   );
 };
+
+interface ContentProps extends AppointmentTooltip.ContentProps {
+  appointmentData: AppointmentModel;
+}
+
+const Content: React.FC<ContentProps> = ({
+  children,
+  appointmentData,
+  ...restProps
+}) => (
+  <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
+    <ReactMarkdown>{appointmentData.description}</ReactMarkdown>
+    {children}
+  </AppointmentTooltip.Content>
+);
