@@ -35,7 +35,13 @@ import {
   Paper,
 } from "@mui/material";
 import { ErrorNotice } from "../errorNotice";
-import { appointments, selectAppointments, useAppDispatch } from "~/redux";
+import {
+  appointments,
+  selectAccount,
+  selectAppointments,
+  useAppDispatch,
+  useIsAuthed,
+} from "~/redux";
 import { useSnackbar } from "notistack";
 import { TooltipCommandButton } from "./tooltopCommandButton";
 
@@ -44,6 +50,8 @@ const truncate = (str: string, n: number) => {
 };
 
 export const CalendarPage: React.FC = () => {
+  const { session: authUser } = useSelector(selectAccount);
+  const isAuthed = authUser != null;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const dispatch = useAppDispatch();
   const { status, appointments: data, error } = useSelector(selectAppointments);
@@ -51,7 +59,12 @@ export const CalendarPage: React.FC = () => {
     async ({ added, changed, deleted }: ChangeSet) => {
       if (added) {
         // TODO: use safer typing
-        dispatch(appointments.add(added as AppointmentModel));
+        dispatch(
+          appointments.add({
+            ...(added as AppointmentModel),
+            createdBy: authUser?.id,
+          })
+        );
       }
       if (changed) {
         for (const key in changed) {
@@ -144,7 +157,9 @@ export const CalendarPage: React.FC = () => {
         <AppointmentTooltip
           showCloseButton
           showOpenButton
-          onVisibilityChange={(visible) => !visible && setTimeout(() => setAppointmentMeta(undefined), 750)}
+          onVisibilityChange={(visible) =>
+            !visible && setTimeout(() => setAppointmentMeta(undefined), 750)
+          }
           appointmentMeta={appointmentMeta}
           onAppointmentMetaChange={setAppointmentMeta}
           commandButtonComponent={(props) => (
@@ -152,7 +167,7 @@ export const CalendarPage: React.FC = () => {
           )}
         />
         <AppointmentForm
-          readOnly={appointmentMeta?.data.eventType === "external"}
+          readOnly={!isAuthed || appointmentMeta?.data.eventType === "external"}
         />
         <DragDropProvider />
         <CurrentTimeIndicator shadePreviousAppointments shadePreviousCells />
