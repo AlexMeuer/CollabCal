@@ -77,50 +77,50 @@ export const SignInPage: React.FC = () => {
           type={themeMode}
           onClick={() => dispatch(account.loginWithGoogle())}
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-        />
+        {/* <TextField */}
+        {/*   margin="normal" */}
+        {/*   required */}
+        {/*   fullWidth */}
+        {/*   id="email" */}
+        {/*   label="Email Address" */}
+        {/*   name="email" */}
+        {/*   autoComplete="email" */}
+        {/*   autoFocus */}
+        {/* /> */}
+        {/* <TextField */}
+        {/*   margin="normal" */}
+        {/*   required */}
+        {/*   fullWidth */}
+        {/*   name="password" */}
+        {/*   label="Password" */}
+        {/*   type="password" */}
+        {/*   id="password" */}
+        {/*   autoComplete="current-password" */}
+        {/* /> */}
         {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         /> */}
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign In
-        </Button>
-        <Grid container spacing={4}>
-          <Grid item xs>
-            <Link href="#" variant="body2" fontStyle="strikethrough">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="#" variant="body2" fontStyle="strikethrough">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid>
+        {/* <Button */}
+        {/*   type="submit" */}
+        {/*   fullWidth */}
+        {/*   variant="contained" */}
+        {/*   sx={{ mt: 3, mb: 2 }} */}
+        {/* > */}
+        {/*   Sign In */}
+        {/* </Button> */}
+        {/* <Grid container spacing={4}> */}
+        {/*   <Grid item xs> */}
+        {/*     <Link href="#" variant="body2" fontStyle="strikethrough"> */}
+        {/*       Forgot password? */}
+        {/*     </Link> */}
+        {/*   </Grid> */}
+        {/*   <Grid item> */}
+        {/*     <Link href="#" variant="body2" fontStyle="strikethrough"> */}
+        {/*       {"Don't have an account? Sign Up"} */}
+        {/*     </Link> */}
+        {/*   </Grid> */}
+        {/* </Grid> */}
         <Copyleft />
       </Box>
     </Box>
