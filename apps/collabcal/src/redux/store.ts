@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
+import { UserData } from "shared-types/userData";
 import { config as servicesConfig, repos } from "~/redux/iocConfig";
 import { consoleLogger } from "~/redux/middleware/consoleLogger";
 import {
@@ -19,7 +20,7 @@ import {
 } from "~/redux/slices/appointments";
 import { themeModeSlice } from "~/redux/slices/themeMode";
 import { currentuserDataFetcher } from "./middleware/currentUserDataFetcher";
-import { userDataSlice } from "./slices/userData";
+import { fetchUserData, userDataSlice } from "./slices/userData";
 
 export const store = configureStore({
   devTools: import.meta.env.DEV,
@@ -60,8 +61,10 @@ export const account = {
 export const selectAccount = (state: RootState) => state.account;
 export const useIsAuthed = () => useSelector(selectAccount).session !== null;
 
-export const userData = userDataSlice.actions;
+export const userData = { ...userDataSlice.actions, fetchOne: fetchUserData };
 export const selectUserData = (state: RootState) => state.userData;
+export const selectUserDataOne = (id: UserData["id"]) => (state: RootState) =>
+  state.userData.users[id];
 
 // PERF: make this an action to allow turning on/off?
 repos.appointments.stream().subscribe((appointment) => {

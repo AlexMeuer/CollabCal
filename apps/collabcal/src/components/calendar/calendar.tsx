@@ -39,8 +39,9 @@ import {
   appointments,
   selectAccount,
   selectAppointments,
+  selectUserDataOne,
   useAppDispatch,
-  useIsAuthed,
+  userData,
 } from "~/redux";
 import { useSnackbar } from "notistack";
 import { TooltipCommandButton } from "./tooltopCommandButton";

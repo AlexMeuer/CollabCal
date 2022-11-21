@@ -1,6 +1,5 @@
 import { UserDataRepo as UserDataRepoInterface } from "~/repos/userDataRepo";
 import { UserData } from "shared-types/userData";
-import { Observable } from "rxjs";
 import {
   Firestore,
   collection,
@@ -9,7 +8,6 @@ import {
   getDoc,
   doc,
   setDoc,
-  onSnapshot,
 } from "firebase/firestore";
 import { UserDataConverter } from "./userDataConverter";
 
@@ -35,18 +33,5 @@ export class UserDataRepo implements UserDataRepoInterface {
   ): Promise<UserData> {
     await setDoc(doc(this.collection, obj.id), obj, { merge: true });
     return await this.read(obj.id);
-  }
-
-  streamOne(id: UserData["id"]): Observable<UserData> {
-    return new Observable((subscriber) => {
-      const unsubscribe = onSnapshot(doc(this.collection, id), (snapshot) => {
-        if (snapshot.exists()) {
-          subscriber.next(snapshot.data());
-        } else {
-          subscriber.error(new Error("User not found"));
-        }
-      });
-      return unsubscribe;
-    });
   }
 }
