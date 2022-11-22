@@ -39,7 +39,10 @@ export const syncRyEvents = async (ryCookie: string): Promise<any> => {
   for (const datum of raw) {
     const parsed = ryEvent.safeParse(datum);
     if (parsed.success) {
-      const domainEvent = mapRyEventToDomain(parsed.data, turndownService);
+      const domainEvent = mapRyEventToDomain(
+        parsed.data,
+        turndownService.turndown.bind(turndownService)
+      );
       const docRef = collectionRef.doc(parsed.data.id);
       batch.set(docRef, domainEvent, { merge: true });
     } else {
@@ -54,10 +57,10 @@ export const syncRyEvents = async (ryCookie: string): Promise<any> => {
 // Firebase-functions fails to deploy if we import a workspace dependency.
 const mapRyEventToDomain = (
   event: ryEvent,
-  turndownService: TurndownService
+  stringTransformer: (s: string) => string
 ) => ({
-  title: event.post.title,
-  description: turndownService.turndown(event.post.content.description),
+  title: stringTransformer(event.post.title),
+  description: stringTransformer(event.post.content.description),
   startDate: new Date(event.starts_at),
   endDate: new Date(event.ends_at),
   allDay: false,

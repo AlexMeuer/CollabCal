@@ -105,7 +105,7 @@ importers:
       eslint-config-google: ^0.14.0
       eslint-plugin-import: ^2.25.4
       firebase-admin: ^10.3.0
-      firebase-functions: ^4.0.2
+      firebase-functions: ^4.1.0
       firebase-functions-test: ^0.2.0
       node-fetch-commonjs: ^3.2.4
       turndown: ^7.1.1
@@ -113,7 +113,7 @@ importers:
       zod: ^3.19.1
     dependencies:
       firebase-admin: 10.3.0_@firebase+app-types@0.8.1
-      firebase-functions: 4.0.2_firebase-admin@10.3.0
+      firebase-functions: 4.1.0_firebase-admin@10.3.0
       node-fetch-commonjs: 3.2.4
       turndown: 7.1.1
       zod: 3.19.1
@@ -124,7 +124,7 @@ importers:
       eslint: 8.27.0
       eslint-config-google: 0.14.0_eslint@8.27.0
       eslint-plugin-import: 2.26.0_jnohwm7eexgw7uduhweedcbnpe
-      firebase-functions-test: 0.2.3_liwsyqpdyjerzdkuo5emq3uvw4
+      firebase-functions-test: 0.2.3_mbnrbxn6qo6qmmfz54yshihb3a
       typescript: 4.8.4
 
   packages/shared-types:
@@ -4621,7 +4621,7 @@ packages:
       - encoding
       - supports-color
 
-  /firebase-functions-test/0.2.3_liwsyqpdyjerzdkuo5emq3uvw4:
+  /firebase-functions-test/0.2.3_mbnrbxn6qo6qmmfz54yshihb3a:
     resolution:
       {
         integrity: sha512-zYX0QTm53wCazuej7O0xqbHl90r/v1PTXt/hwa0jo1YF8nDM+iBKnLDlkIoW66MDd0R6aGg4BvKzTTdJpvigUA==,
@@ -4633,14 +4633,14 @@ packages:
     dependencies:
       "@types/lodash": 4.14.188
       firebase-admin: 10.3.0_@firebase+app-types@0.8.1
-      firebase-functions: 4.0.2_firebase-admin@10.3.0
+      firebase-functions: 4.1.0_firebase-admin@10.3.0
       lodash: 4.17.21
     dev: true
 
-  /firebase-functions/4.0.2_firebase-admin@10.3.0:
+  /firebase-functions/4.1.0_firebase-admin@10.3.0:
     resolution:
       {
-        integrity: sha512-y2JEMVRQfKQyib/wRMn6qSEg1kfJhl0nBOPHbcvrWN3cFakOssTVfq78GEQe3m9PPE8toF9ysabsetTUi4vkSg==,
+        integrity: sha512-brbww5lGQVm8+d4KFmHF+O8wJBthws1NGXgphy7UDguMbUoW0fq6bL0NI442w+3nDE8IYUbnR4p3U8/cLAhnOA==,
       }
     engines: { node: ">=14.10.0" }
     hasBin: true
