@@ -98,29 +98,33 @@ importers:
 
   apps/sync:
     specifiers:
+      "@types/turndown": ^5.0.1
       "@typescript-eslint/eslint-plugin": ^5.12.0
       "@typescript-eslint/parser": ^5.12.0
       eslint: ^8.9.0
       eslint-config-google: ^0.14.0
       eslint-plugin-import: ^2.25.4
       firebase-admin: ^10.3.0
-      firebase-functions: ^4.0.2
+      firebase-functions: ^4.1.0
       firebase-functions-test: ^0.2.0
       node-fetch-commonjs: ^3.2.4
+      turndown: ^7.1.1
       typescript: ^4.5.4
       zod: ^3.19.1
     dependencies:
       firebase-admin: 10.3.0_@firebase+app-types@0.8.1
-      firebase-functions: 4.0.2_firebase-admin@10.3.0
+      firebase-functions: 4.1.0_firebase-admin@10.3.0
       node-fetch-commonjs: 3.2.4
+      turndown: 7.1.1
       zod: 3.19.1
     devDependencies:
+      "@types/turndown": 5.0.1
       "@typescript-eslint/eslint-plugin": 5.42.1_2udltptbznfmezdozpdoa2aemq
       "@typescript-eslint/parser": 5.42.1_rmayb2veg2btbq6mbmnyivgasy
       eslint: 8.27.0
       eslint-config-google: 0.14.0_eslint@8.27.0
       eslint-plugin-import: 2.26.0_jnohwm7eexgw7uduhweedcbnpe
-      firebase-functions-test: 0.2.3_liwsyqpdyjerzdkuo5emq3uvw4
+      firebase-functions-test: 0.2.3_mbnrbxn6qo6qmmfz54yshihb3a
       typescript: 4.8.4
 
   packages/shared-types:
@@ -2479,6 +2483,13 @@ packages:
       "@types/mime": 3.0.1
       "@types/node": 18.11.9
 
+  /@types/turndown/5.0.1:
+    resolution:
+      {
+        integrity: sha512-N8Ad4e3oJxh9n9BiZx9cbe/0M3kqDpOTm2wzj13wdDUxDPjfjloWIJaquZzWE1cYTAHpjOH3rcTnXQdpEfS/SQ==,
+      }
+    dev: true
+
   /@types/unist/2.0.6:
     resolution:
       {
@@ -3622,6 +3633,13 @@ packages:
       csstype: 3.1.1
     dev: false
 
+  /domino/2.1.6:
+    resolution:
+      {
+        integrity: sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==,
+      }
+    dev: false
+
   /dot-prop/5.3.0:
     resolution:
       {
@@ -4603,7 +4621,7 @@ packages:
       - encoding
       - supports-color
 
-  /firebase-functions-test/0.2.3_liwsyqpdyjerzdkuo5emq3uvw4:
+  /firebase-functions-test/0.2.3_mbnrbxn6qo6qmmfz54yshihb3a:
     resolution:
       {
         integrity: sha512-zYX0QTm53wCazuej7O0xqbHl90r/v1PTXt/hwa0jo1YF8nDM+iBKnLDlkIoW66MDd0R6aGg4BvKzTTdJpvigUA==,
@@ -4615,14 +4633,14 @@ packages:
     dependencies:
       "@types/lodash": 4.14.188
       firebase-admin: 10.3.0_@firebase+app-types@0.8.1
-      firebase-functions: 4.0.2_firebase-admin@10.3.0
+      firebase-functions: 4.1.0_firebase-admin@10.3.0
       lodash: 4.17.21
     dev: true
 
-  /firebase-functions/4.0.2_firebase-admin@10.3.0:
+  /firebase-functions/4.1.0_firebase-admin@10.3.0:
     resolution:
       {
-        integrity: sha512-y2JEMVRQfKQyib/wRMn6qSEg1kfJhl0nBOPHbcvrWN3cFakOssTVfq78GEQe3m9PPE8toF9ysabsetTUi4vkSg==,
+        integrity: sha512-brbww5lGQVm8+d4KFmHF+O8wJBthws1NGXgphy7UDguMbUoW0fq6bL0NI442w+3nDE8IYUbnR4p3U8/cLAhnOA==,
       }
     engines: { node: ">=14.10.0" }
     hasBin: true
@@ -8433,6 +8451,15 @@ packages:
       tslib: 1.14.1
       typescript: 4.8.4
     dev: true
+
+  /turndown/7.1.1:
+    resolution:
+      {
+        integrity: sha512-BEkXaWH7Wh7e9bd2QumhfAXk5g34+6QUmmWx+0q6ThaVOLuLUqsnkq35HQ5SBHSaxjSfSM7US5o4lhJNH7B9MA==,
+      }
+    dependencies:
+      domino: 2.1.6
+    dev: false
 
   /type-check/0.4.0:
     resolution:
