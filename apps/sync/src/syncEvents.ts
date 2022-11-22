@@ -1,6 +1,7 @@
 import { getFirestore } from "firebase-admin/firestore";
 import fetch from "node-fetch-commonjs";
 import { ryEvent } from "./ryTypes";
+import TurndownService = require("turndown");
 
 export const syncRyEvents = async (ryCookie: string): Promise<any> => {
   const db = getFirestore();
@@ -10,7 +11,7 @@ export const syncRyEvents = async (ryCookie: string): Promise<any> => {
     "https://community.remoteyear.com/api/web/v1/spaces/8097043/event_instances/upcoming?page=1&per_page=50",
     {
       headers: {
-        cookie: ryCookie
+        cookie: ryCookie,
       },
     }
   );
@@ -20,21 +21,25 @@ export const syncRyEvents = async (ryCookie: string): Promise<any> => {
       `Unexpected response: ${response.status} ${response.statusText}`,
       await response.json()
     );
-    throw new Error(`Unexpected response: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Unexpected response: ${response.status} ${response.statusText}`
+    );
   }
 
   const raw = await response.json();
   if (!Array.isArray(raw)) {
     console.error("Unexpected response", raw);
-    throw new Error("Unexpected response body from RemoteYear.")
+    throw new Error("Unexpected response body from RemoteYear.");
   }
+
+  const turndownService = new TurndownService();
 
   const batch = db.batch();
   const fails = [];
   for (const datum of raw) {
     const parsed = ryEvent.safeParse(datum);
     if (parsed.success) {
-      const domainEvent = mapRyEventToDomain(parsed.data);
+      const domainEvent = mapRyEventToDomain(parsed.data, turndownService);
       const docRef = collectionRef.doc(parsed.data.id);
       batch.set(docRef, domainEvent, { merge: true });
     } else {
@@ -47,9 +52,12 @@ export const syncRyEvents = async (ryCookie: string): Promise<any> => {
 };
 
 // Firebase-functions fails to deploy if we import a workspace dependency.
-const mapRyEventToDomain = (event: ryEvent) => ({
+const mapRyEventToDomain = (
+  event: ryEvent,
+  turndownService: TurndownService
+) => ({
   title: event.post.title,
-  description: event.post.content.description,
+  description: turndownService.turndown(event.post.content.description),
   startDate: new Date(event.starts_at),
   endDate: new Date(event.ends_at),
   allDay: false,
