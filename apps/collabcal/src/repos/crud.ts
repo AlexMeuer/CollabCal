@@ -19,3 +19,7 @@ export interface Deleter<ID = string, Return = void> {
 export interface Streamable<T> {
   stream: () => Observable<T>;
 }
+
+export interface StreamableSingle<T, ID = string> {
+  streamOne: (id: ID) => Observable<T>;
+}

@@ -10,5 +10,6 @@ export const Appointment = z.object({
   allDay: z.boolean().default(false),
   external: z.boolean().default(false),
   externalUrl: z.string().optional(),
+  createdBy: z.string().optional(), // User ID
 });
 export type Appointment = z.infer<typeof Appointment>;

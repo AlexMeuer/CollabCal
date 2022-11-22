@@ -1,10 +1,13 @@
 import { initializeApp } from "firebase/app";
 import {
-  connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
   getFirestore,
 } from "firebase/firestore";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from "firebase/auth";
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -26,3 +29,6 @@ enableMultiTabIndexedDbPersistence(db).catch((err) => {
 
 export const auth = getAuth();
 // connectAuthEmulator(auth, "http://localhost:9099");
+setPersistence(auth, browserLocalPersistence).catch((err) => {
+  console.error("Failed to enable auth persistence", err);
+});

@@ -1,5 +1,4 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { Models } from "appwrite";
 import { AuthSession } from "~/services/authService";
 import { createAsyncAppThunk } from "../ioc";
 
@@ -45,26 +44,31 @@ export const accountSlice = createSlice({
   } as AccountState,
   reducers: {},
   extraReducers(builder) {
-    builder
-      .addCase(loginWithEmail.fulfilled, (state, action) => ({
-        ...state,
-        status: "idle",
-        session: action.payload,
-      }))
-      .addCase(fetchSession.fulfilled, (state, action) => ({
-        ...state,
-        status: "idle",
-        session: action.payload,
-      }))
-      .addCase(logout.fulfilled, (state) => ({
-        ...state,
-        status: "idle",
-        session: null,
-      }));
+    builder.addCase(fetchSession.fulfilled, (state, action) => {
+      state.session = action.payload;
+      state.status = "idle";
+    });
+    builder.addCase(logout.fulfilled, (state) => ({
+      ...state,
+      status: "idle",
+      session: null,
+    }));
 
     builder
+      .addMatcher(
+        (action) => /^account\/login\/\w+\/fulfilled$/.test(action.type),
+        (state, action) => {
+          if (!action.payload?.id) {
+            console.error("Invalid session", action.payload);
+          }
+          state.status = "idle";
+          state.session = action.payload;
+        }
+      )
       .addMatcher(isPending, (state) => {
-        state.status = "loading";
+        if (!state.session) {
+          state.status = "loading";
+        }
       })
       .addMatcher(isRejected, (state) => {
         state.status = "failed";

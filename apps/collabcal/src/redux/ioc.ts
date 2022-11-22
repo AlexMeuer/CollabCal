@@ -5,10 +5,12 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { AppointmentsRepo } from "~/repos/appointmentsRepo";
+import { UserDataRepo } from "~/repos/userDataRepo";
 import { AuthService } from "~/services/authService";
 
 export type Repos = {
   appointments: AppointmentsRepo;
+  userData: UserDataRepo;
 };
 export type Services = {
   auth: AuthService;
