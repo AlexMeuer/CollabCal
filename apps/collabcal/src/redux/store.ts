@@ -67,11 +67,9 @@ export const selectUserDataOne = (id: UserData["id"]) => (state: RootState) =>
   state.userData.users[id];
 
 // PERF: make this an action to allow turning on/off?
-servicesConfig.extra.repos.appointments.stream().subscribe((appointments) => {
-  appointments.forEach((appointment) => {
-    store.dispatch(
-      appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
-    );
-  });
+servicesConfig.extra.repos.appointments.stream().subscribe((appointment) => {
+  store.dispatch(
+    appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
+  );
 });
 store.dispatch(appointments.fetch());
