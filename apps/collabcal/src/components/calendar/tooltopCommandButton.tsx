@@ -20,13 +20,21 @@ export const TooltipCommandButton: React.FC<TooltipCommandButtonProps> = ({
   const icon = React.useMemo(() => {
     switch (id) {
       case "delete":
-        return <Icons.Delete />;
+        return isAuthed ? <Icons.Delete /> : null;
       case "open":
-        return isExternal ? <Icons.Preview /> : <Icons.Edit />;
+        return isAuthed ? (
+          isExternal ? (
+            <Icons.Preview />
+          ) : (
+            <Icons.Edit />
+          )
+        ) : null;
       case "close":
         return <Icons.Close />;
     }
   }, [id, isExternal]);
 
-  return isAuthed ? <IconButton onClick={onExecute}>{icon}</IconButton> : null;
+  return icon !== null ? (
+    <IconButton onClick={onExecute}>{icon}</IconButton>
+  ) : null;
 };
