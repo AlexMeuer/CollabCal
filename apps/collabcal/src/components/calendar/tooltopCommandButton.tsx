@@ -7,12 +7,14 @@ import * as Icons from "@mui/icons-material";
 export interface TooltipCommandButtonProps
   extends AppointmentTooltip.CommandButtonProps {
   meta?: AppointmentMeta;
+  isAuthed: boolean;
 }
 
 export const TooltipCommandButton: React.FC<TooltipCommandButtonProps> = ({
   id,
   onExecute,
   meta,
+  isAuthed,
 }) => {
   const isExternal = React.useMemo(() => meta?.data?.external, [meta]);
   const icon = React.useMemo(() => {
@@ -26,5 +28,5 @@ export const TooltipCommandButton: React.FC<TooltipCommandButtonProps> = ({
     }
   }, [id, isExternal]);
 
-  return <IconButton onClick={onExecute}>{icon}</IconButton>;
+  return isAuthed ? <IconButton onClick={onExecute}>{icon}</IconButton> : null;
 };
