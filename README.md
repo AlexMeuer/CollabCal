@@ -16,3 +16,7 @@ From the root directory:
   - Bash: `alias pnx="pnpm nx run"` (save this to _.bashrc_ or wherever you normally persist stuff like this).
   - Fish: `abbr pnx pnpm nx run`
 - `pnx collabcal:dev` - Run the calendar app
+
+## Running with in-memory infra
+
+In `.env.local` (not source-controlled), set this env var: `INFRA=in-memory`

@@ -66,6 +66,7 @@ export const fetchAppointments = createAsyncAppThunk(
 export const sanitiseAppointment = (
   appointment: Appointment
 ): AppointmentModel => {
+  console.log("APT", appointment);
   const startDate = new Date(appointment.startDate);
   return {
     ...appointment,
