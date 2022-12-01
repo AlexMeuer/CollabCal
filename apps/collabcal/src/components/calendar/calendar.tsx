@@ -44,6 +44,7 @@ import {
 import { useSnackbar } from "notistack";
 import { TooltipCommandButton } from "./tooltopCommandButton";
 import { TooltipContent } from "./tooltipContent";
+import { UnauthedAppointmentForm } from "./unauthedAppointmentForm";
 
 const truncate = (str: string, n: number) => {
   return str.length > n ? str.slice(0, n - 1) + "&hellip;" : str;
@@ -55,6 +56,7 @@ export const CalendarPage: React.FC = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const dispatch = useAppDispatch();
   const { status, appointments: data, error } = useSelector(selectAppointments);
+
   const onCommitChanges = React.useCallback(
     async ({ added, changed, deleted }: ChangeSet) => {
       if (added) {
@@ -165,7 +167,13 @@ export const CalendarPage: React.FC = () => {
           contentComponent={TooltipContent}
           commandButtonComponent={(
             props: AppointmentTooltip.CommandButtonProps
-          ) => <TooltipCommandButton {...props} meta={appointmentMeta} />}
+          ) => (
+            <TooltipCommandButton
+              {...props}
+              meta={appointmentMeta}
+              isAuthed={isAuthed}
+            />
+          )}
         />
         <AppointmentForm
           readOnly={!isAuthed || appointmentMeta?.data.eventType === "external"}

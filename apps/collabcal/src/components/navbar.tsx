@@ -31,7 +31,7 @@ export const NavBar: React.FC<NavBarProps> = ({ title, onAuthRequested }) => {
     }
   }, [session]);
   return (
-    <AppBar position="static" sx={{ "box-shadow": "10px" }}>
+    <AppBar position="static">
       <Toolbar>
         <Typography
           variant="h6"
@@ -51,7 +51,7 @@ export const NavBar: React.FC<NavBarProps> = ({ title, onAuthRequested }) => {
         <Box
           sx={{
             flexGrow: 1,
-            "justify-content": "end",
+            justifyContent: "end",
             display: "flex",
           }}
         >
