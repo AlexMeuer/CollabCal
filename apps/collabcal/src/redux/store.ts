@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { UserData } from "shared-types/userData";
-import { config as servicesConfig, repos } from "~/redux/iocConfig";
+import { config as servicesConfig } from "~/redux/iocConfig";
 import { consoleLogger } from "~/redux/middleware/consoleLogger";
 import {
   accountSlice,
@@ -67,9 +67,11 @@ export const selectUserDataOne = (id: UserData["id"]) => (state: RootState) =>
   state.userData.users[id];
 
 // PERF: make this an action to allow turning on/off?
-repos.appointments.stream().subscribe((appointment) => {
-  store.dispatch(
-    appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
-  );
+servicesConfig.extra.repos.appointments.stream().subscribe((appointments) => {
+  appointments.forEach((appointment) => {
+    store.dispatch(
+      appointmentsSlice.actions.setOne(sanitiseAppointment(appointment))
+    );
+  });
 });
 store.dispatch(appointments.fetch());

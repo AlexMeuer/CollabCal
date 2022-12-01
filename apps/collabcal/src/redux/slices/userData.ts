@@ -32,6 +32,10 @@ export const userDataSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(fetchUserData.fulfilled, (state, action) => {
+      if (!action.payload) {
+        console.error("User fetched but no payload provided!");
+        return;
+      }
       state.users[action.payload.id] = action.payload;
       state.status = "idle";
     });

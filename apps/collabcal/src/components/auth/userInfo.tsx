@@ -1,4 +1,3 @@
-import { AccountCircle } from "@mui/icons-material";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -8,13 +7,11 @@ import { CopyableInfo } from "./copyableInfo";
 
 export interface UserInfoProps {
   session: AuthSession;
-  onCalendarRequested: () => void;
   onLogoutRequested: () => void;
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({
   session,
-  onCalendarRequested,
   onLogoutRequested,
 }) => {
   const { users } = useSelector(selectUserData);
@@ -22,29 +19,21 @@ export const UserInfo: React.FC<UserInfoProps> = ({
   return (
     <>
       <Avatar
+        alt={user?.name || session?.id}
         src={user?.photoURL || session?.avatarURL}
-        sx={{ m: 1, bgcolor: "secondary.main" }}
-      >
-        <AccountCircle />
-      </Avatar>
-      <Typography component="h1" variant="h5" sx={{ m: 4 }}>
+        sx={{ m: 1, bgcolor: "secondary.main", width: 120, height: 120 }}
+      />
+      <Typography component="h1" variant="h5" color="primary" sx={{ m: 4 }}>
         {user?.name || session?.name || session?.id}
       </Typography>
       <Box mt={1} height="100%" display="flex" flexDirection="column">
         <CopyableInfo label="ID" value={session?.id || "unknown"} />
-        <CopyableInfo
-          label="Name"
-          value={user?.name || session?.name || "unknown"}
-        />
         <Button
-          onClick={onCalendarRequested}
+          onClick={onLogoutRequested}
           fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          color="secondary"
+          sx={{ my: 4 }}
         >
-          Calendar
-        </Button>
-        <Button onClick={onLogoutRequested} fullWidth>
           Sign Out
         </Button>
       </Box>

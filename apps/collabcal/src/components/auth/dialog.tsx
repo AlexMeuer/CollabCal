@@ -1,26 +1,30 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Dialog, DialogProps } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { selectAccount } from "~/redux";
+import { account, selectAccount, useAppDispatch } from "~/redux";
 import { Copyleft } from "~/components/copyleft";
 import { LoginControl } from "./loginControl";
 import { UserInfo } from "./userInfo";
 
-export const Auth: React.FC = () => {
-  const navigate = useNavigate();
+export type AuthDialogProps = Pick<DialogProps, "open" | "onClose">;
+
+export const AuthDialog: React.FC<AuthDialogProps> = (props) => {
+  return (
+    <Dialog {...props} maxWidth="xl">
+      <DialogContent />
+    </Dialog>
+  );
+};
+
+const DialogContent: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { status, session } = useSelector(selectAccount);
 
   if (status === "loading") {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="100%"
-      >
-        <CircularProgress />
-      </Box>
+      <Container>
+        <CircularProgress sx={{ margin: "auto" }} />
+      </Container>
     );
   }
 
@@ -29,8 +33,7 @@ export const Auth: React.FC = () => {
       <Container>
         <UserInfo
           session={session}
-          onCalendarRequested={() => navigate("/")}
-          onLogoutRequested={() => navigate("/auth/out")}
+          onLogoutRequested={() => dispatch(account.logout())}
         />
       </Container>
     );
@@ -49,15 +52,16 @@ interface ContainerProps {
 const Container: React.FC<ContainerProps> = ({ children }) => (
   <Box
     sx={{
-      py: 8,
-      px: 4,
+      p: 4,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       height: "100%",
+      minHeight: "60vh",
+      minWidth: "300px",
     }}
   >
     {children}
-    <Copyleft />
+    <Copyleft sx={{ marginTop: "auto" }} />
   </Box>
 );

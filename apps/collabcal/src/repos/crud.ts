@@ -4,7 +4,7 @@ export interface Creator<T, Return = T> {
   create: (obj: T) => Promise<Return>;
 }
 export interface Reader<T, ID = string> {
-  read: (id: ID) => Promise<T>;
+  read: (id: ID) => Promise<T | undefined>;
 }
 export interface ReaderAll<T> {
   readAll: () => Promise<T[]>;
@@ -21,5 +21,5 @@ export interface Streamable<T> {
 }
 
 export interface StreamableSingle<T, ID = string> {
-  streamOne: (id: ID) => Observable<T>;
+  streamOne: (id: ID) => Observable<T | undefined>;
 }
